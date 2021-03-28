@@ -7,10 +7,11 @@ const wrapper = (db) => {
   class LoginSignUp {
     async logIn(req, res) {
       // getting username and password from body
-      const { username, password } = req.body;
+      const { username, password,location } = req.body;
+      console.log(req.body)
       // Fetching a user whoes username and password matches given username and password
-      let [rows,field] = await db.query(`Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`)
-      let user =rows
+      let [user,field] = await db.query(`Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`)
+      let [user1,field123] = await db.query(`update user_location set longitude='${location.long}',latitude='${location.lat}' , cur_time=current_timestamp where username='${username}';`)
       // const user = await db("all_users")
       //   .where({
       //     username: username,
@@ -26,11 +27,14 @@ const wrapper = (db) => {
     }
     async signUp(req, res) {
       // getting username,password, email from body
-      const { username, password, email } = req.body;
-      // console.log(req.body)
+      const { username, password, email,location } = req.body;
+       console.log(req.body)
       try {
         // Creating New User
-        let [a,field1] = await db.query(`INSERT INTO all_users VALUES('${uid()}','${username}','${email}','${password}',CURRENT_TIMESTAMP)`)
+        let a=uid()
+        let [a1,field1] = await db.query(`INSERT INTO all_users VALUES('${a}','${username}','${email}','${password}',CURRENT_TIMESTAMP)`)
+        let [b,field234]= await db.query(`insert into user_location(username,userid,latitude,longitude,cur_time) values('${username}','${a}','${location.lat}','${location.long}',current_timestamp) `)
+        console.log(b)
         // console.log(a,123)
         // await db("all_users").insert({
         //   userid: uid(),

@@ -25,6 +25,8 @@ const sendPrivateMsg = async ({ data, db1,db, io, socket, users }) => {
  await db("private_messages").insert({
     ...data,
     chatid: uid(),
+    type:'private',
+    created: db.fn.now(), 
     seen_by: seen_by.join(),
     accepted_by: [sender, receiver].join(),
   });

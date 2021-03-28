@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 const SignUp = ({ setUser }) => {
   const history = useHistory();
+  const [userLocation,setUserLocation] = useState({})
   const [userInfo, setUserInfo] = useState({});
   const onSignUp = () => {
     if (!userInfo.username || !userInfo.password || !userInfo.email) {
       return;
     }
+
     fetch("http://localhost:5005/signup", {
       method: "POST",
       body: JSON.stringify(userInfo),
@@ -16,10 +18,19 @@ const SignUp = ({ setUser }) => {
     })
       .then((response) => response.json())
       .then(({ user }) => {
-        history.push("/");
+        history.push("/info");
         setUser(user);
       });
   };
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setUserLocation(position);
+      setUserInfo({...userInfo,location:{
+        lat: position.coords.latitude,
+        long: position.coords.longitude
+      }})
+    })
+  } ,[])
   return (
     <div className="">
       <label>

@@ -1,7 +1,10 @@
 const { uid } = require("uid/secure");
 const sendGroupMsg = async ({ data, io, db,db1, users }) => {
   const { groupid, sender, text } = data;
+ 
+
   let [groupInfo,field] = await db1.query(`select * from all_groups where groupid='${groupid}';`)
+  // console.log(groupInfo)
   // const groupInfo = await db("all_groups").where({ groupid });
   const members = groupInfo[0].member.split(",");
   members.push(...groupInfo[0].admins.split(","));

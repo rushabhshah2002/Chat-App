@@ -219,7 +219,7 @@ const PrivateChat = ({ user }) => {
               return (
                 <div className="" key={msg.Id}>
                   {msg.sender}:
-                  <span
+                  <span key={uid()}
                     onClick={async () => {
                       await navigator.clipboard.writeText(msg.text);
                       alert(`${msg.text} copied`);

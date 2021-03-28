@@ -1,6 +1,6 @@
 const http = require("http").createServer();
 const mysql = require('mysql2');
-const pool = mysql.createPool({host:'localhost', user: 'root', database: 'chat_app',password:'1234567'});
+const pool = mysql.createPool({host:'localhost', user: 'root', database: 'chatt_app2',password:'1234567'});
 const db1 = pool.promise();
 
 const db = require("knex")({
@@ -9,13 +9,14 @@ const db = require("knex")({
     host: "localhost",
     user: "root",
     password: "1234567",
-    database: "chat_app",
+    database: "chatt_app2",
     port: 3306,
   },
 });
 //*
 //* Routes
 //*
+
 //!Private Chat
 const sendPrivateMsg = require("./routes/sendPrivateMsg.route");
 const onPrivateChat = require("./routes/onPrivateChat.route");
@@ -28,9 +29,20 @@ const removeMember = require("./routes/removeMember.route");
 const sendGroupMsg = require("./routes/sendGroupMsg.route");
 const leaveGroup = require("./routes/leaveGroup.route");
 const onGroupChat = require("./routes/onGroupChat.route");
+const userInfo = require("./routes/userInfo");
 
-
-
+// db.schema.hasTable("user_info").then(function (exists) {
+//   if (!exists) {
+//     return db.schema
+//     .createTable("user_info", function (t) {
+//       t.string("dob");
+//       t.string("image_url");
+//       t.string("description");
+//       t.string("username");
+//       t.timestamp("last_updated").defaultTo(db.fn.now());
+//     })
+//   }
+// });
 
 const io = require("socket.io")(http, {
   reconnect: true,
@@ -44,6 +56,7 @@ io.on("connection", (socket) => {
   socket.on("user_connected", async (data) => {
     const { username, currentPosition, id } = data;
     console.log(data);
+
     users[socket.id] = {
       id: socket.id,
       username,
@@ -55,7 +68,7 @@ io.on("connection", (socket) => {
     // const userInfo = await db("socketids").where("name", username);
     if (userInfo.length === 0) {
 
-      await db1.query(`insert into socketids values('${username}','${id}');`)
+      await db1.query(`insert into socketids values('${username}','${socket.id}');`)
       // await db("socketids").insert([{ name: username, id: socket.id }]);
     } else {
       await db1.query(`update socketids set id = '${socket.id}' where name = '${username}'`)
@@ -75,6 +88,7 @@ io.on("connection", (socket) => {
   socket.on("change-position", (data) => changePosition({ data, db,db1, io }));
   socket.on("on-privatechat", (data) => onPrivateChat({ db, io,db1, data }));
   socket.on("on-groupchat", (data) => onGroupChat({ db, io,db1, data }));
+  socket.on("user-info", (data) => userInfo({ db, io,db1, data }));
   //socket.on("create-group",new Gr(db,io).create)
   socket.on("disconnect", function () {
     if (users[socket.id]) {

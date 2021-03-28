@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { useHistory, Link } from "react-router-dom";
 
 const Login = ({ setUser }) => {
@@ -28,7 +28,17 @@ const Login = ({ setUser }) => {
         //   pushing route to "/"
         history.push("/");
       });
+      
   };
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      
+      setCredentials({...credentials,location:{
+        lat: position.coords.latitude,
+        long: position.coords.longitude
+      }})
+    })
+  } ,[])
   return (
     <div className="">
       <label>

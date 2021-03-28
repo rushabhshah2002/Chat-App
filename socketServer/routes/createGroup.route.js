@@ -8,6 +8,7 @@ const createGroup = async ({ db,db1, io, data, socket }) => {
       group_name,
       is_admin: true,
       member: username,
+      in_date : db.fn.now(),
       groupid: uid(),
     },
   ];
@@ -25,6 +26,7 @@ const createGroup = async ({ db,db1, io, data, socket }) => {
       group_name,
       is_admin: false,
       member,
+      in_date : db.fn.now(),
       groupid: groupinfo[0].groupid,
     });
     await db1.query(`insert into user_chat(username,receivername,last_updated,groupid,type) values('${member}','${group_name}',current_timestamp,'${groupinfo[0].groupid}','group')`)
@@ -37,7 +39,8 @@ const createGroup = async ({ db,db1, io, data, socket }) => {
     //   type: "group",
     // });
   }
-    await db1.query(`insert into  all_groups(groupid,group_name,member,admins) values('${groupinfo[0].groupid}','${group_name}','${members.join()}','${username}');`)
+  await db("group_info").insert(groupinfo);
+  await db1.query(`insert into  all_groups(groupid,group_name,member,admins) values('${groupinfo[0].groupid}','${group_name}','${members.join()}','${username}');`)
 
   // await db("all_groups").insert({
   //   groupid: groupinfo[0].groupid,
@@ -48,7 +51,7 @@ const createGroup = async ({ db,db1, io, data, socket }) => {
   // await db1.query(`insert into group_info `)
 
 
-  await db("group_info").insert(groupinfo);
+  
   
   let [group,field] = await db1.query(`select * from all_groups where groupid='${groupinfo[0].groupid}';`)
   // const group = await db("all_groups").where({ groupid: groupinfo[0].groupid });

@@ -7,12 +7,12 @@ const app = express();
 const groupRoute = require("./routes/group.routes");
 const DeleteRoute = require("./routes/deleteChat.routes");
 const LoginSignUp = require("./routes/LoginSignUp.routes");
-
-const pool = mysql.createPool({host:'localhost', user: 'root', database: 'chat_app',password:'1234567'});
+const fetchLocation = require('./routes/fetchLocation')
+const pool = mysql.createPool({host:'localhost', user: 'root', database: 'chatt_app2',password:'1234567'});
 
 const db = pool.promise();
 
-// const db = knex({
+// const db1 = knex({
 //   client: "mysql2",
 //   connection: {
 //     host: "localhost",
@@ -37,13 +37,23 @@ app.use(express.json());
 //     });
 //   }
 // });
-
+// db1.schema.hasTable("user_location").then(function (exists) {
+//   if (!exists){
+//     return db1.schema.createTable("user_location",(t) => {
+//       t.string("username");
+//       t.string("userid");
+//       t.string("latitude");
+//       t.string("longitude");
+//     })
+//   }
+// })
 // all group routes
 app.use("/group", groupRoute(db));
 // all delete routes
 app.use("/delete", DeleteRoute(db));
 // Login Signup
 app.use("/", LoginSignUp(db));
+app.use("/map",fetchLocation(db) );
 // fetch all private messages
 app.get("/allPrivateMessages", async (req, res) => {
   //getting user and friend from query
@@ -70,19 +80,21 @@ app.get("/allPrivateMessages", async (req, res) => {
 app.get("/chatList", async (req, res) => {
   const { username } = req.query;
   // console.log(username);
-  let [rows,field]=await db.query(`select * from user_chat where username = '${username}' order by last_updated ;`)
-  const chats=rows
+  let [chats,field]=await db.query(`select * from user_chat where username = '${username}' order by last_updated ;`)
+  
   // const chats = await db("user_chat")
   //   .where({ username })
   //   .orderBy("last_updated");
   // console.log(chats);
   res.json(chats);
 });
+ 
+
 // Fetching all users
 app.get("/allUsers", async (req, res) => {
   
-  let [rows,field]=await db.query(`select username,joined_on from all_users order by joined_on ;`)
-  const users=rows
+  let [users,field]=await db.query(`select username,joined_on from all_users order by joined_on ;`)
+ 
   // const users = await db("all_users")
   //   .select("username", "joined_on")
   //   .orderBy("joined_on");

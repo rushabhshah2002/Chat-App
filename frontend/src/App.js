@@ -5,6 +5,7 @@ import ChatDir from "./Pages/ChatDir.pages";
 import Signup from "./Components/SignUp.component";
 import Login from "./Components/Login.component";
 import GroupSetting from "./Pages/GroupSetting.pages";
+import UserInfoForm from "./Components/UserInfoForm";
 
 function App() {
   const [user, setUser] = useState({});
@@ -16,6 +17,7 @@ function App() {
         !user.username &&
         history.location.pathname !== "/login" &&
         history.location.pathname !== "/signup"
+
       ) {
         history.push("/signup");
       }
@@ -30,6 +32,8 @@ function App() {
         <Route exact path="/" render={() => <ChatDir user={user} />} />
         <Route path="/signup" render={() => <Signup setUser={setUser} />} />
         <Route path="/login" render={() => <Login setUser={setUser} />} />
+        <Route path="/info" render={() => <UserInfoForm user={user.username}/>}/>
+
         <Route
           path="/:groupid/edit"
           render={() => <GroupSetting user={user.username} />}

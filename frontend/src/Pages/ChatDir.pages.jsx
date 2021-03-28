@@ -22,8 +22,7 @@ const ChatDir = ({ user }) => {
   }, []);
 
   const fetchChats = () => {
-    if (user.username) {
-      console.log(user);
+   
       fetch(`http://localhost:5005/chatList?username=${user.username}`, {
         method: "GET",
       })
@@ -31,11 +30,10 @@ const ChatDir = ({ user }) => {
         .then((user) => {
           setChat(user);
         });
-    }
-  };
+    };
+  
   useEffect(() => {
-    console.log(user, "uashi");
-    if(user.username){
+    
       fetch("http://localhost:5005/allUsers")
       .then((response) => response.json())
       .then(({ users }) => {
@@ -47,7 +45,7 @@ const ChatDir = ({ user }) => {
       currentPosition: "chatdir",
       id: null,
     });
-    }
+  
     
 
     fetchChats();
@@ -59,6 +57,12 @@ const ChatDir = ({ user }) => {
           console.log(data);
           history.push(`/group/${data.content.groupid}`);
           break;
+        case "new member":
+          console.log(31)
+          fetchChats();
+          console.log(chats)
+
+
         default:
           break;
       }
@@ -129,7 +133,9 @@ const ChatDir = ({ user }) => {
     setSelectedFriends(arr);
   };
   return (
+   
     <div className="">
+      <p>{user.username}</p>
       <button
         onClick={() => {
           setDeleteChat(!deleteChat);
@@ -138,6 +144,7 @@ const ChatDir = ({ user }) => {
       >
         {!deleteChat ? "delete Chat" : "cancel"}
       </button>
+   
       <div className="private_chat">
         <input
           type="text"
@@ -165,6 +172,7 @@ const ChatDir = ({ user }) => {
       </div>
       <ul>
         {chats.map((chat) => {
+          console.log(chat)
           return (
             <li key={uid()}>
               <Link

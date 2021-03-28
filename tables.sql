@@ -1,0 +1,11 @@
+create database chatt_app2;
+use chatt_app2;
+create table all_users(userid varchar(50),username varchar(50) primary key,email varchar(50) unique,password varchar(500),joined_on timestamp);
+create table user_location (username varchar(50) primary key ,foreign key(username) references all_users(username),userid varchar(50), latitude float,longitude float,cur_time timestamp );
+create table user_info(username varchar(50) primary key, foreign key(username) references all_users(username) ,dob date ,description varchar(100),image_url varchar(75),last_updated timestamp);
+create table group_info (groupid varchar(255)  , group_name varchar(50) ,member varchar(50),foreign key(member) references all_users(username),is_admin int ,in_date timestamp,left_date timestamp,primary key(groupid,member));
+create table all_groups(groupid varchar(255) primary key , foreign key(groupid) references group_info(groupid),group_name varchar(255),member varchar(255), admins varchar(255),created timestamp);
+create table group_chat(groupid varchar(255), foreign key(groupid) references group_info(groupid),chatid varchar(255),sender varchar(50), foreign key(sender) references all_users(username),text varchar(255),type varchar(50),created  timestamp,seen_by varchar(255),accepted_by varchar(255));
+create table socketids(name varchar(50) ,foreign key(name) references all_users(username) ,id varchar(255));
+create table user_chat(username varchar(255),foreign key(username) references all_users(username),last_updated timestamp,receiverName varchar(255),type varchar(255),groupid varchar(255));
+create table private_messages(sender varchar(50),foreign key(sender) references all_users(username),receiver varchar(50),foreign key(receiver) references all_users(username),chatid varchar(255), text varchar(255),type varchar(50),created  timestamp,seen_by varchar(255),accepted_by varchar(255));

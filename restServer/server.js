@@ -102,6 +102,7 @@ app.get("/chatList", async (req, res) => {
   // console.log(chats);
   res.json(chats);
 });
+
 app.get("/get/photo", (req, res) => getPhoto({ db1, req, res }));
 // Fetching all users
 app.get("/allUsers", async (req, res) => {
@@ -112,9 +113,14 @@ app.get("/allUsers", async (req, res) => {
   const usernames = users.map((user) => user.username);
   const usersInfo = await db1("user_info").whereIn("username", usernames);
   for (let userInfo of usersInfo) {
-    let datauri = await imageDataUri.encodeFromFile(
-      `../socketServer/${userInfo.image_url}`
-    );
+    let datauri;
+    try {
+      datauri = await imageDataUri.encodeFromFile(
+        `../socketServer${userInfo.image_url}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
     friends.push({
       ...userInfo,
       image_url: datauri,

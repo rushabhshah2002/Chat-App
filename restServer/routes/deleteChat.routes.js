@@ -59,7 +59,7 @@ const wrapper = (db) => {
           // await db("user_chat").where({ groupid, type, username: user }).del();
           // Getting All Messages sent in the Group
           
-          let [allchats,field] = await db.query(`select * from group_chat where groupid ='${groupid}';`)
+          let [allChats,field] = await db.query(`select * from group_chat where groupid ='${groupid}';`)
           // const allChats = await db("group_chat").where({ groupid });
           // Store Chat all removing user from accepted_by
           const updatedChat = [];
@@ -77,7 +77,7 @@ const wrapper = (db) => {
               //   .where({ groupid, chatid: chat.chatid })
               //   .update({ accepted_by: accepted_by.join() });
               if (accepted_by.length === 0) {
-                await db.query(`delete from user_chat where (type = "private" and  username = '${user} and recieverName  = '${friend}');`)
+                await db.query(`delete from user_chat where (type = "private" and  username = '${user} and receiverName  = '${friend}');`)
                 // await db("group_chat").where({ chatid: chat.chatid }).del();
               }
             }
@@ -87,7 +87,7 @@ const wrapper = (db) => {
           // Delete Friend Chat from Table: user_chat
           console.log(friend, user);
           console.log("Hwjoij");
-          await db.query(`delete from user_chat where (type = "private" and  username = '${user} and recieverName  = '${friend}');`)
+          await db.query(`delete from user_chat where (type = "private" and  username = '${user}' and receiverName  = '${friend}');`)
           // await db("user_chat")
           //   .where({
           //     type: "private",
@@ -96,7 +96,7 @@ const wrapper = (db) => {
           //   })
           //   .del();
           // Getting All Messages sent between user and that user
-          let [allChats,field] = await db.query(`select * from private_messages where (sender = '${user}' and reciever = '${friend}') or (sender = '${friend}' and reciever = '${user}');`)
+          let [allChats,field] = await db.query(`select * from private_messages where (sender = '${user}' and receiver = '${friend}') or (sender = '${friend}' and receiver = '${user}');`)
           // const allChats = await db("private_messages")
           //   .where({ sender: user, receiver: friend })
           //   .orWhere({ sender: friend, receiver: user });
@@ -117,7 +117,7 @@ const wrapper = (db) => {
               //   .update({ accepted_by: accepted_by.join() });
               // Deleting whole row if accepted by is empty
               if (accepted_by.length === 0) {
-                await db.query(`delete private_messages where(chatid = '${chat.chatid})`)
+                await db.query(`delete from private_messages where chatid = '${chat.chatid}'`)
                 // await db("private_messages")
                 //   .where({ chatid: chat.chatid })
                 //   .del();

@@ -11,10 +11,17 @@ const addMember = async ({ data, db,db1, io }) => {
  }
   console.log(3456)
   for (let member of newMembers) {
+    let [user123,field]= await db1.query(`select * from group_info where member='${member}' and groupid='${groupid}'`)
+    console.log(user123)
+    if(user123.length > 0){
+      await db1.query(`update group_info set left_date=null,in_date=current_timestamp where member='${member}' and groupid='${groupid}' `)
+    }
+    else{
+
+      await db1.query(`insert into group_info(groupid,group_name,member,is_admin,in_date,left_date) values('${groupid}','${group_name}','${member}',0,current_timestamp,null)`)
+    }
     console.log('abcd')
-    await db1.query(`insert into group_info(groupid,group_name,member,is_admin,in_date,left_date) values('${groupid}','${group_name}','${member}',0,current_timestamp,null)`)
-    console.log(64)
-    console.log(`insert into group_info(groupid,group_name,member,is_admin,in_date,left_date) values('${groupid}','${group_name}','${member}',0,current_timestamp,null)`)
+   
     // await db("group_info").insert({
     //   groupid,
     //   member,

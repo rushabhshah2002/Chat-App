@@ -24,16 +24,16 @@ const leaveGroup = async ({ data, db, db1,io }) => {
     //   .update({ member: members.join(), admins: admins.join() });
     members.push(user);
   }
-  await db1.query(`delete from group_info where groupid ='${groupid}' and member = '${user}';`)
+  await db1.query(`update group_info set left_date=current_timestamp where groupid='${groupid}' and member='${user}'`)
   // await db("group_info").where({ groupid, member: user }).del();
 
-  await db1.query(`delete from user_chat where groupid ='${groupid}' and username = '${user}';`)
+  // await db1.query(`delete from user_chat where groupid ='${groupid}' and username = '${user}';`)
   // await db("user_chat").where({ groupid, username: user }).del();
   // const socketids = await db("socketids").whereIn("name", [
   //   ...members,
   //   ...admins,
   // ]);
-  const [socketids,field1] =await db1.query(`select from socketids where name in (?)`,[[
+  const [socketids,field1] =await db1.query(`select * from socketids where name in (?)`,[[
     ...members,
     ...admins,
   ]]);

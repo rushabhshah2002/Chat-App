@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ImageCrop from "./ImageCrop.component";
+import ImageCrop from "./ImageCrop.component.jsx";
 import { io } from "socket.io-client";
 import { useHistory } from "react-router-dom";
 let socket;

@@ -47,7 +47,7 @@ const sendPrivateMsg = async ({ data, db1,db, io, socket, users }) => {
   // });
   console.log(arr);
   if (arr.length === 0 && arr1.length === 0) {
-    await db1.query(  `insert into user_chat(username,receiverName,last_updated,type,groupid) values ('${sender}','${receiver}',current_timestamp,'private','${null}');`)
+    await db1.query(  `insert into user_chat(username,receiverName,last_updated,type,groupid) values ('${sender}','${receiver}',current_timestamp,'private','null);`)
     // await db("user_chat").insert({
     //   username: sender,
     //   receiverName: receiver,

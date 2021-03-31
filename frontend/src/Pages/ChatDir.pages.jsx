@@ -178,7 +178,7 @@ const ChatDir = ({ user }) => {
               <Link
                 to={
                   chat.type === "private"
-                    ? `/dm/${chat.receiverName}}`
+                    ? `/dm/${chat.receiverName}`
                     : `/group/${chat.groupid}`
                 }
                 key={uid()}

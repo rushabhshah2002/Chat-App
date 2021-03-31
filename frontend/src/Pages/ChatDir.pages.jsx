@@ -22,19 +22,18 @@ const ChatDir = ({ user }) => {
   }, []);
 
   const fetchChats = () => {
-   
-      fetch(`http://localhost:5005/chatList?username=${user.username}`, {
-        method: "GET",
-      })
-        .then((response) => response.json())
-        .then((user) => {
-          setChat(user);
-        });
-    };
-  
+    fetch(`http://localhost:5005/chatList?username=${user.username}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((user) => {
+        setChat(user);
+      });
+  };
+
   useEffect(() => {
-    
-      fetch("http://localhost:5005/allUsers")
+    fetchChats();
+    fetch("http://localhost:5005/allUsers")
       .then((response) => response.json())
       .then(({ users }) => {
         setFriends(users);
@@ -45,10 +44,6 @@ const ChatDir = ({ user }) => {
       currentPosition: "chatdir",
       id: null,
     });
-  
-    
-
-    fetchChats();
   }, []);
   useEffect(() => {
     socket.on("group-noti", (data) => {
@@ -58,10 +53,9 @@ const ChatDir = ({ user }) => {
           history.push(`/group/${data.content.groupid}`);
           break;
         case "new member":
-          console.log(31)
+          console.log(31);
           fetchChats();
-          console.log(chats)
-
+          console.log(chats);
 
         default:
           break;
@@ -133,7 +127,6 @@ const ChatDir = ({ user }) => {
     setSelectedFriends(arr);
   };
   return (
-   
     <div className="">
       <p>{user.username}</p>
       <button
@@ -144,7 +137,7 @@ const ChatDir = ({ user }) => {
       >
         {!deleteChat ? "delete Chat" : "cancel"}
       </button>
-   
+
       <div className="private_chat">
         <input
           type="text"
@@ -153,26 +146,27 @@ const ChatDir = ({ user }) => {
             setDmSearch({ ...dmSearch, search: target.value })
           }
         />
-        <div className="suggestion">
-          {dmSearch.suggestions.map((suggestion) =>
-            suggestion.username.toLowerCase().includes(dmSearch.search) &&
-            suggestion.username !== user.username ? (
-              <div className="" key={uid()}>
-                <Link to={`/dm/${suggestion.username}`}>
-                  {" "}
-                  {suggestion.username}
-                </Link>
-              </div>
-            ) : null
-          )}
-          <p>
-            ----------------------------------------------------------------
-          </p>
-        </div>
+        {dmSearch.search.length > 0 ? (
+          <div className="suggestion">
+            {dmSearch.suggestions.map((suggestion) =>
+              suggestion.username.toLowerCase().includes(dmSearch.search) &&
+              suggestion.username !== user.username ? (
+                <div className="" key={uid()}>
+                  <img src={suggestion.image_url} alt="" />
+                  <Link to={`/dm/${suggestion.username}`}>
+                    {" "}
+                    {suggestion.username}
+                  </Link>
+                </div>
+              ) : null
+            )}
+          </div>
+        ) : null}
       </div>
       <ul>
         {chats.map((chat) => {
-          console.log(chat)
+          console.log(chat);
+
           return (
             <li key={uid()}>
               <Link

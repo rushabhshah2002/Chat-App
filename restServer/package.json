@@ -3,6 +3,7 @@
     "bluebird": "^3.7.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "image-data-uri": "^2.0.1",
     "knex": "^0.21.17",
     "mysql": "^2.18.1",
     "mysql-client": "^0.3.0",

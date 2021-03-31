@@ -13,6 +13,7 @@ const PrivateChat = ({ user }) => {
       text: "",
     },
   ]);
+  const [membersInfo, setMembersInfo] = useState({});
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [deleteMsg, setDeleteMsg] = useState(false);
   const history = useHistory();
@@ -90,7 +91,17 @@ const PrivateChat = ({ user }) => {
     getAllMessages();
     //return socket.disconnect()
   }, []);
-
+  useEffect(() => {
+    if (type === "dm") {
+      for (let i of [user, id])
+        fetch(`http://localhost:5005/get/photo?username=${i}`)
+          .then((response) => response.json())
+          .then(({user}) => {
+            console.log(user);
+            setMembersInfo({ [user.username]: user });
+          });
+    }
+  }, []);
   useEffect(() => {
     socket.on("new-message", (data) => {
       if (data.sender === id || data.sender === user) {
@@ -204,6 +215,8 @@ const PrivateChat = ({ user }) => {
 
   return (
     <div className="">
+      <p>{id}</p>
+      {membersInfo[id] ? <img src={membersInfo[id].image_url} alt="" /> : null}
       <p>Click The Message to copy</p>
       <button
         onClick={() => {
@@ -219,7 +232,8 @@ const PrivateChat = ({ user }) => {
               return (
                 <div className="" key={msg.Id}>
                   {msg.sender}:
-                  <span key={uid()}
+                  <span
+                    key={uid()}
                     onClick={async () => {
                       await navigator.clipboard.writeText(msg.text);
                       alert(`${msg.text} copied`);

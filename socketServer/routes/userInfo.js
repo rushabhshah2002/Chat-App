@@ -2,8 +2,8 @@ const imageDataUri = require("image-data-uri");
 
 const userInfo = async ({ data, db1, db, io }) => {
   const { dataURI, bio, dob, username } = data;
-  console.log(data);
-  console.log(dataURI);
+  // console.log(data);
+  // console.log(dataURI);
   let imageurl = await imageDataUri.outputFile(dataURI, `./media/${username}`);
   let imgURlArr = imageurl.split("");
   imgURlArr.shift();

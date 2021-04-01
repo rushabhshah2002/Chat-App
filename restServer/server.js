@@ -5,6 +5,7 @@ const mysql = require("mysql2");
 const app = express();
 
 const groupRoute = require("./routes/group.routes");
+
 const DeleteRoute = require("./routes/deleteChat.routes");
 const LoginSignUp = require("./routes/LoginSignUp.routes");
 const fetchLocation = require("./routes/fetchLocation");
@@ -13,8 +14,8 @@ const imageDataUri = require("image-data-uri");
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  database: "chat_app",
-  password: "1234567890",
+  database: "chatt_app2",
+  password: "1234567",
 });
 
 const db = pool.promise();
@@ -24,8 +25,8 @@ const db1 = knex({
   connection: {
     host: "localhost",
     user: "root",
-    password: "1234567890",
-    database: "chat_app",
+    password: "1234567",
+    database: "chatt_app2",
     port: 3306,
   },
 });
@@ -92,15 +93,33 @@ app.get("/chatList", async (req, res) => {
   let [chats, field] = await db.query(
     `select * from user_chat where username = '${username}' order by last_updated ;`
   );
+  // console.log(chats,"123")
+  let finalChatList=[]
+  for (let chat of chats){
+    
+    if (chat.type==='private'){
+    let [user_info, field123] = await db.query( `select * from user_info where username = '${chat.receiverName}' ;`) 
+    console.log(user_info)
+      const datauri = await imageDataUri.encodeFromFile(`./../socketServer${user_info[0].image_url}`);
+      finalChatList.push({
+        ...user_info[0],
+        image_url:datauri,
+        type:'private'
+      })
+    }
+    else {
+      finalChatList.push(chat)
+    }
 
-  console.log(chats, "123453456");
+  }
+  console.log(finalChatList)
 
   // console.log(userInfo);
   // const chats = await db("user_chat")
   //   .where({ username })
   //   .orderBy("last_updated");
   // console.log(chats);
-  res.json(chats);
+  res.json(finalChatList);
 });
 
 app.get("/get/photo", (req, res) => getPhoto({ db1, req, res }));

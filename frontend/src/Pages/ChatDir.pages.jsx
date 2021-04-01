@@ -30,8 +30,8 @@ const ChatDir = ({ user }) => {
         setChat(user);
       });
   };
-
-  useEffect(() => {
+  console.log(chats)
+   useEffect(() => {
     fetchChats();
     fetch("http://localhost:5005/allUsers")
       .then((response) => response.json())
@@ -169,10 +169,16 @@ const ChatDir = ({ user }) => {
 
           return (
             <li key={uid()}>
+                        
+              {chat.type==="private"?
+                <img  src={chat.image_url} alt="private"/>
+                :<p>Group</p>
+              }
+              
               <Link
                 to={
                   chat.type === "private"
-                    ? `/dm/${chat.receiverName}`
+                    ? `/dm/${chat.username}`
                     : `/group/${chat.groupid}`
                 }
                 key={uid()}

@@ -6,22 +6,22 @@ import Signup from "./Components/SignUp.component";
 import Login from "./Components/Login.component";
 import GroupSetting from "./Pages/GroupSetting.pages";
 import UserInfoForm from "./Components/UserInfoForm";
-
+import Map from "./Components/Map";
 function App() {
   const [user, setUser] = useState({});
   const history = useHistory();
   useEffect(() => {
     console.log(history);
-    if (user) {
-      if (
-        !user.username &&
-        history.location.pathname !== "/login" &&
-        history.location.pathname !== "/signup"
+    // if (user) {
+    //   if (
+    //     !user.username &&
+    //     history.location.pathname !== "/login" &&
+    //     history.location.pathname !== "/signup"
 
-      ) {
-        history.push("/signup");
-      }
-    }
+    //   ) {
+    //     history.push("/signup");
+    //   }
+    // }
   });
   useEffect(() => {
     console.log(user);
@@ -32,7 +32,10 @@ function App() {
         <Route exact path="/" render={() => <ChatDir user={user} />} />
         <Route path="/signup" render={() => <Signup setUser={setUser} />} />
         <Route path="/login" render={() => <Login setUser={setUser} />} />
-        <Route path="/info" render={() => <UserInfoForm user={user.username}/>}/>
+        <Route
+          path="/info"
+          render={() => <UserInfoForm user={user.username} />}
+        />
 
         <Route
           path="/:groupid/edit"
@@ -43,6 +46,7 @@ function App() {
           path="/:type/@:id"
           render={() => <Chat user={user.username} />}
         />
+        <Route path="/map" render={() => <Map />} />
       </Switch>
     </div>
   );

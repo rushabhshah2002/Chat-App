@@ -3,8 +3,8 @@ const mysql = require("mysql2");
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  database: "chat_app",
-  password: "1234567890",
+  database: "chatt_app2",
+  password: "1234567",
 });
 const db1 = pool.promise();
 
@@ -13,8 +13,8 @@ const db = require("knex")({
   connection: {
     host: "localhost",
     user: "root",
-    password: "1234567890",
-    database: "chat_app",
+    password: "1234567",
+    database: "chatt_app2",
     port: 3306,
   },
 });

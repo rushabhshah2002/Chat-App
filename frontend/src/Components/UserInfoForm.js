@@ -10,7 +10,7 @@ const UserInfoForm = ({ user }) => {
     socket = io("127.0.0.1:3003", { transports: ["websocket"] });
   }, []);
   const handleSubmit = (dataURI) => {
-    console.log(dataURI);
+ 
     setUserInfo({ ...userInfo, dataURI });
   };
   const onBTNClick = () => {

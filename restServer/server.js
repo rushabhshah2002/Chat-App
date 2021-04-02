@@ -3,13 +3,15 @@ const cors = require("cors");
 const knex = require("knex");
 const mysql = require("mysql2");
 const app = express();
-
+const { HolidayAPI } = require("holidayapi");
+const key = "ee7fb3fe-ffc1-4192-b3ee-8482569679aa";
+const holidayApi = new HolidayAPI({ key });
 const groupRoute = require("./routes/group.routes");
-
 const DeleteRoute = require("./routes/deleteChat.routes");
 const LoginSignUp = require("./routes/LoginSignUp.routes");
 const fetchLocation = require("./routes/fetchLocation");
 const getPhoto = require("./routes/getPhoto.route");
+const forgetPassword = require("./routes/forgetPassword.route");
 const imageDataUri = require("image-data-uri");
 const pool = mysql.createPool({
   host: "localhost",
@@ -30,9 +32,16 @@ const db1 = knex({
     port: 3306,
   },
 });
-
+//sendEmail({ to: "", subject: "", html: "" });
 app.use(cors());
 app.use(express.json());
+holidayApi
+  .holidays({
+    country: "US",
+    year: 2020,
+  })
+  .then(console.log);
+
 // Create a all_users if not already exists
 // db.schema.hasTable("all_users").then(function (exists) {
 //   if (!exists) {
@@ -62,6 +71,7 @@ app.use("/delete", DeleteRoute(db));
 // Login Signup
 app.use("/", LoginSignUp(db));
 app.use("/map", fetchLocation(db));
+app.use("/forget/password", forgetPassword);
 // fetch all private messages
 app.get("/allPrivateMessages", async (req, res) => {
   //getting user and friend from query
@@ -94,25 +104,26 @@ app.get("/chatList", async (req, res) => {
     `select * from user_chat where username = '${username}' order by last_updated ;`
   );
   // console.log(chats,"123")
-  let finalChatList=[]
-  for (let chat of chats){
-    
-    if (chat.type==='private'){
-    let [user_info, field123] = await db.query( `select * from user_info where username = '${chat.receiverName}' ;`) 
-    console.log(user_info)
-      const datauri = await imageDataUri.encodeFromFile(`./../socketServer${user_info[0].image_url}`);
+  let finalChatList = [];
+  for (let chat of chats) {
+    if (chat.type === "private") {
+      let [user_info, field123] = await db.query(
+        `select * from user_info where username = '${chat.receiverName}' ;`
+      );
+      console.log(user_info);
+      const datauri = await imageDataUri.encodeFromFile(
+        `./../socketServer${user_info[0].image_url}`
+      );
       finalChatList.push({
         ...user_info[0],
-        image_url:datauri,
-        type:'private'
-      })
+        image_url: datauri,
+        type: "private",
+      });
+    } else {
+      finalChatList.push(chat);
     }
-    else {
-      finalChatList.push(chat)
-    }
-
   }
-  console.log(finalChatList)
+  console.log(finalChatList);
 
   // console.log(userInfo);
   // const chats = await db("user_chat")

@@ -3,9 +3,6 @@ const cors = require("cors");
 const knex = require("knex");
 const mysql = require("mysql2");
 const app = express();
-const { HolidayAPI } = require("holidayapi");
-const key = "ee7fb3fe-ffc1-4192-b3ee-8482569679aa";
-const holidayApi = new HolidayAPI({ key });
 const groupRoute = require("./routes/group.routes");
 const DeleteRoute = require("./routes/deleteChat.routes");
 const LoginSignUp = require("./routes/LoginSignUp.routes");
@@ -16,8 +13,8 @@ const imageDataUri = require("image-data-uri");
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  database: "chatt_app2",
-  password: "1234567",
+  database: "chat_app",
+  password: "1234567890",
 });
 
 const db = pool.promise();
@@ -27,20 +24,14 @@ const db1 = knex({
   connection: {
     host: "localhost",
     user: "root",
-    password: "1234567",
-    database: "chatt_app2",
+    password: "1234567890",
+    database: "chat_app",
     port: 3306,
   },
 });
 //sendEmail({ to: "", subject: "", html: "" });
 app.use(cors());
 app.use(express.json());
-holidayApi
-  .holidays({
-    country: "US",
-    year: 2020,
-  })
-  .then(console.log);
 
 // Create a all_users if not already exists
 // db.schema.hasTable("all_users").then(function (exists) {
@@ -71,7 +62,7 @@ app.use("/delete", DeleteRoute(db));
 // Login Signup
 app.use("/", LoginSignUp(db));
 app.use("/map", fetchLocation(db));
-app.use("/forget/password", forgetPassword);
+app.use("/send/otp", forgetPassword(db1));
 // fetch all private messages
 app.get("/allPrivateMessages", async (req, res) => {
   //getting user and friend from query

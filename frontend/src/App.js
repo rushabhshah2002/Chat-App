@@ -7,6 +7,7 @@ import Login from "./Components/Login.component";
 import GroupSetting from "./Pages/GroupSetting.pages";
 import UserInfoForm from "./Components/UserInfoForm";
 import Map from "./Components/Map";
+import ForgetPassword from "./Components/ForgetPassword.components";
 function App() {
   const [user, setUser] = useState({});
   const history = useHistory();
@@ -32,6 +33,7 @@ function App() {
         <Route exact path="/" render={() => <ChatDir user={user} />} />
         <Route path="/signup" render={() => <Signup setUser={setUser} />} />
         <Route path="/login" render={() => <Login setUser={setUser} />} />
+        <Route path="/forget/password" render={() => <ForgetPassword />} />
         <Route
           path="/info"
           render={() => <UserInfoForm user={user.username} />}

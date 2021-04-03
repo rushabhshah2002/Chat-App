@@ -12,16 +12,16 @@ function App() {
   const history = useHistory();
   useEffect(() => {
     console.log(history);
-    // if (user) {
-    //   if (
-    //     !user.username &&
-    //     history.location.pathname !== "/login" &&
-    //     history.location.pathname !== "/signup"
+    if (user) {
+      if (
+        !user.username &&
+        history.location.pathname !== "/login" &&
+        history.location.pathname !== "/signup"
 
-    //   ) {
-    //     history.push("/signup");
-    //   }
-    // }
+      ) {
+        history.push("/signup");
+      }
+    }
   });
   useEffect(() => {
     console.log(user);

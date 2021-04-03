@@ -104,7 +104,8 @@ app.get("/chatList", async (req, res) => {
       finalChatList.push({
         ...user_info[0],
         image_url:datauri,
-        type:'private'
+        type:'private',
+        receiverName:user_info[0].username
       })
     }
     else {

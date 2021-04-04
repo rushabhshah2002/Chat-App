@@ -6,7 +6,8 @@ import Signup from "./Components/SignUp.component";
 import Login from "./Components/Login.component";
 import GroupSetting from "./Pages/GroupSetting.pages";
 import UserInfoForm from "./Components/UserInfoForm";
-import Map from "./Components/Map"
+import Map from "./Components/Map";
+import ForgetPassword from "./Components/ForgetPassword.components";
 function App() {
   const [user, setUser] = useState({});
   const history = useHistory();
@@ -32,7 +33,11 @@ function App() {
         <Route exact path="/" render={() => <ChatDir user={user} />} />
         <Route path="/signup" render={() => <Signup setUser={setUser} />} />
         <Route path="/login" render={() => <Login setUser={setUser} />} />
-        <Route path="/info" render={() => <UserInfoForm user={user.username}/>}/>
+        <Route path="/forget/password" render={() => <ForgetPassword setUser={setUser}/>} />
+        <Route
+          path="/info"
+          render={() => <UserInfoForm user={user.username} />}
+        />
 
         <Route
           path="/:groupid/edit"
@@ -43,7 +48,7 @@ function App() {
           path="/:type/@:id"
           render={() => <Chat user={user.username} />}
         />
-        <Route path="/map" render={() => <Map/>}/>
+        <Route path="/map" render={() => <Map />} />
       </Switch>
     </div>
   );

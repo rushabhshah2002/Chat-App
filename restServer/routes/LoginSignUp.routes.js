@@ -11,6 +11,7 @@ const wrapper = (db) => {
       console.log(req.body)
       // Fetching a user whoes username and password matches given username and password
       let [user,field] = await db.query(`Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`)
+      
       let [user1,field123] = await db.query(`update user_location set longitude='${location.long}',latitude='${location.lat}' , cur_time=current_timestamp where username='${username}';`)
       // const user = await db("all_users")
       //   .where({
@@ -22,7 +23,9 @@ const wrapper = (db) => {
       if (user.length === 0) {
         res.status(401).json({ error: "Wrong credentials" });
       } else {
+        await db.query(`update all_users set joined_on =current_timestamp where username ='${username}'`)
         res.status(200).json({ user: user[0] });
+
       }
     }
     async signUp(req, res) {

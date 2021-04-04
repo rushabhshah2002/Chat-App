@@ -1,8 +1,11 @@
 {
   "dependencies": {
+    "@sendgrid/mail": "^7.4.2",
     "bluebird": "^3.7.2",
     "cors": "^2.8.5",
+    "date-holidays": "^3.0.1",
     "express": "^4.17.1",
+    "holidayapi": "^4.2.0",
     "image-data-uri": "^2.0.1",
     "knex": "^0.21.17",
     "mysql": "^2.18.1",

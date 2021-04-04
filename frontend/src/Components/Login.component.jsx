@@ -96,6 +96,9 @@ const Login = ({ setUser }) => {
           />
         </svg>
       </LinkPrimary>
+      <Link to="/forget/password">
+        Forgot password
+      </Link>
     </Container>
   );
 };

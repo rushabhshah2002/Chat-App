@@ -26,9 +26,16 @@ const wrapper = (db1) => {
       //   Sending OTP as response to frontend
       return res.json({ otp });
     }
+    async updatePassword(req, res) {
+      const { username, password } = req.body;
+      await db.query(
+        `update all_users set password ='${password}' where username='${username}'`
+      );
+    }
   }
   const router = express.Router();
   router.get("/", new forgetPassword().send);
+  router.post("/", new forgetPassword().updatePassword);
   return router;
 };
 module.exports = wrapper;

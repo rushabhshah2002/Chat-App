@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import sendEmail from "../../../restServer/utils/sendEmail.utils";
+import SendOTP from "./SendOTP.component";
 import ChangePassword from "./ChangePassword.component";
 const ForgetPassword = () => {
   const [isVerified, setIsVerified] = useState(false);
   return (
     <div className="">
       {!isVerified ? (
-        <sendEmail setIsVerified={setIsVerified} />
+        <SendOTP setIsVerified={setIsVerified} />
       ) : (
         <ChangePassword isVerified={isVerified} />
       )}

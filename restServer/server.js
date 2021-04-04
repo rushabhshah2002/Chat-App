@@ -62,7 +62,7 @@ app.use("/delete", DeleteRoute(db));
 // Login Signup
 app.use("/", LoginSignUp(db));
 app.use("/map", fetchLocation(db));
-app.use("/send/otp", forgetPassword(db1));
+app.use("/forget/password", forgetPassword(db1));
 // fetch all private messages
 app.get("/allPrivateMessages", async (req, res) => {
   //getting user and friend from query

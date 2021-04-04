@@ -6,7 +6,7 @@ const SendOTP = ({ setIsVerified }) => {
   const [userTypedOTP, setUserTypedOTP] = useState("");
   const [otp, setOtp] = useState("");
   const sendOTP = () => {
-    fetch(`http://localhost:5005/send/otp?username=${username}`)
+    fetch(`http://localhost:5005/forget/password?username=${username}`)
       .then((response) => response.json())
       .then(({ otp }) => setOtp(otp));
     setIsOTPSend(true);
@@ -14,6 +14,7 @@ const SendOTP = ({ setIsVerified }) => {
   const checkOTP = () => {
     if (otp === userTypedOTP) {
       setIsVerified(true);
+      alert("Correct otp");
     } else {
       alert("Wrong OTP,New OTP Sent");
       sendOTP();

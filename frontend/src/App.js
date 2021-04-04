@@ -33,7 +33,7 @@ function App() {
         <Route exact path="/" render={() => <ChatDir user={user} />} />
         <Route path="/signup" render={() => <Signup setUser={setUser} />} />
         <Route path="/login" render={() => <Login setUser={setUser} />} />
-        <Route path="/forget/password" render={() => <ForgetPassword />} />
+        <Route path="/forgot/password" render={() => <ForgetPassword />} />
         <Route
           path="/info"
           render={() => <UserInfoForm user={user.username} />}

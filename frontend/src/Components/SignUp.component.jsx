@@ -35,10 +35,15 @@ const SignUp = ({ setUser }) => {
       },
     })
       .then((response) => response.json())
-      .then(({ user }) => {
+      .then(( user ) => {
+        if(user.err){
+          alert(user.err);
+         return;
+        }
+        console.log(user)
         history.push("/info");
-        setUser(user);
-      });
+        setUser(user.user);
+      })
   };
   return (
     <Container className="">

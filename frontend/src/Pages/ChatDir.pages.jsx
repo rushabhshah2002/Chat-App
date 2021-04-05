@@ -134,6 +134,9 @@ const ChatDir = ({ user }) => {
       >
         map
       </Link>
+      <Link to ='/:user/profile'>
+        profile
+      </Link>
       <button
         onClick={() => {
           setDeleteChat(!deleteChat);

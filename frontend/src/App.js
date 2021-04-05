@@ -8,6 +8,7 @@ import GroupSetting from "./Pages/GroupSetting.pages";
 import UserInfoForm from "./Components/UserInfoForm";
 import Map from "./Components/Map";
 import ForgetPassword from "./Components/ForgetPassword.components";
+import ProfilePage from "./Components/ProfilePage.components"
 function App() {
   const [user, setUser] = useState({});
   const history = useHistory();
@@ -34,6 +35,7 @@ function App() {
         <Route path="/signup" render={() => <Signup setUser={setUser} />} />
         <Route path="/login" render={() => <Login setUser={setUser} />} />
         <Route path="/forget/password" render={() => <ForgetPassword setUser={setUser}/>} />
+        <Route path ='/:user/profile'  render={()=> <ProfilePage   />  }/>
         <Route
           path="/info"
           render={() => <UserInfoForm user={user.username} />}

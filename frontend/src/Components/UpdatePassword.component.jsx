@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-const UpdatePassword = ({ isVerified,username }) => {
+const UpdatePassword = ({ isVerified,username,setUser }) => {
   const [passwords, setPasswords] = useState({
     password: "",
     confirm: "",
   });
   const history=useHistory();
   const passwordChange = () => {
+    
     if (isVerified && passwords.password === passwords.confirm) {
       fetch(`http://localhost:5005/forget/password`,{
         method: "POST",
@@ -20,10 +21,20 @@ const UpdatePassword = ({ isVerified,username }) => {
           
         })
       })
-      .then((response) => response.json()).then(()=>history.push("/"))
+      .then((response) => response.json()).then(({user})=>{
+        if(user.err){
+          alert(user.err);
+         return;
+        }
+        history.push("/")
+        setUser(user)
+      })
   
   
-  };
+  }
+  else {
+    alert("password does not match")
+  }
       
     }
 

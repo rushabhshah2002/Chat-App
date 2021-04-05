@@ -21,7 +21,7 @@ const wrapper = (db1,db) => {
         html: `<h1>One Message</h1>
     <p>Your Otp is ${otp}</p>`,
       };
-      console.log(msg);
+      // console.log(msg);
       sendEmail(msg);
       //   Sending OTP as response to frontend
       return res.json({ otp });
@@ -32,7 +32,14 @@ const wrapper = (db1,db) => {
     async updatePassword(req,res){
       const {username,password} =req.body
       console.log(username)
-      await db.query(`update all_users set password ='${password}' where username='${username}'` )
+     
+ try{
+
+  await db.query(`update all_users set password ='${password}' where username='${username}'` )
+ }     
+    catch(e){
+      // res.status(400).json(e.sqlMessage)
+    }  
       let [user,field] = await db.query(`Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`)
       
 

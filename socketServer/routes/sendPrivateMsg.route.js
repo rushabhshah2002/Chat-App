@@ -20,7 +20,7 @@ const sendPrivateMsg = async ({ data, db1, db, io, socket, users }) => {
     }
   }
   if (!sender || !receiver || !text) {
-    throw error("Invalid details");
+    throw Error("Invalid details");
   }
   // console.log(seen_by);
   // await db1.query(``)

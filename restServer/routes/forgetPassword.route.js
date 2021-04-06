@@ -21,12 +21,13 @@ const wrapper = (db1, db) => {
         html: `<h1>One Message</h1>
     <p>Your Otp is ${otp}</p>`,
       };
-      console.log(msg);
+      // console.log(msg);
       sendEmail(msg);
       //   Sending OTP as response to frontend
       return res.json({ otp });
     }
 
+<<<<<<< HEAD
     async updatePassword(req, res) {
       const { username, password } = req.body;
       console.log(username);
@@ -36,6 +37,32 @@ const wrapper = (db1, db) => {
       let [user, field] = await db.query(
         `Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`
       );
+||||||| 2b5beff
+
+
+    async updatePassword(req,res){
+      const {username,password} =req.body
+      console.log(username)
+      await db.query(`update all_users set password ='${password}' where username='${username}'` )
+      let [user,field] = await db.query(`Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`)
+      
+=======
+
+
+    async updatePassword(req,res){
+      const {username,password} =req.body
+      console.log(username)
+     
+ try{
+
+  await db.query(`update all_users set password ='${password}' where username='${username}'` )
+ }     
+    catch(e){
+      // res.status(400).json(e.sqlMessage)
+    }  
+      let [user,field] = await db.query(`Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`)
+      
+>>>>>>> 83718f4ac71c2f4a2f79b58d5891c288dc46aa44
 
       res.status(200).json({ user: user[0] });
     }

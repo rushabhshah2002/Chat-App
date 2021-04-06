@@ -15,8 +15,11 @@ export const InputPrimary = styled.input`
   border: none;
   font-size: 2rem;
   margin: 1rem;
+  border-bottom: 1px solid #000;
+  background: rgba(255, 244, 79, 0.7);
+  border-radius: 10px;
   &:hover {
-    border-bottom: 1px solid #000;
+    border: 1px solid #000;
   }
   &:active,
   &:focus {
@@ -38,7 +41,8 @@ export const BTNPrimary = styled.button`
   margin-bottom: 1rem;
   border: none;
   border: 1px solid transperent;
-  font-family: "Josefin Slab", serif;
+  font-family: Helvetica, serif;
+  font-weight: 100;
   &:hover,
   &:active,
   &:focus {
@@ -54,6 +58,7 @@ export const LinkPrimary = styled(Link)`
   display: flex;
   align-items: center;
   padding: 1rem;
+  border: 2px dotted #666;
   &:hover {
     border-bottom: 1px solid #000;
   }

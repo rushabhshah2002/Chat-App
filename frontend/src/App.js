@@ -13,16 +13,15 @@ function App() {
   const history = useHistory();
   useEffect(() => {
     console.log(history);
-    // if (user) {
-    //   if (
-    //     !user.username &&
-    //     history.location.pathname !== "/login" &&
-    //     history.location.pathname !== "/signup"
-
-    //   ) {
-    //     history.push("/signup");
-    //   }
-    // }
+    if (user) {
+      if (
+        !user.username &&
+        history.location.pathname !== "/login" &&
+        history.location.pathname !== "/signup"
+      ) {
+        history.push("/signup");
+      }
+    }
   });
   useEffect(() => {
     console.log(user);
@@ -33,7 +32,10 @@ function App() {
         <Route exact path="/" render={() => <ChatDir user={user} />} />
         <Route path="/signup" render={() => <Signup setUser={setUser} />} />
         <Route path="/login" render={() => <Login setUser={setUser} />} />
-        <Route path="/forgot/password" render={() => <ForgetPassword />} />
+        <Route
+          path="/forget/password"
+          render={() => <ForgetPassword setUser={setUser} />}
+        />
         <Route
           path="/info"
           render={() => <UserInfoForm user={user.username} />}

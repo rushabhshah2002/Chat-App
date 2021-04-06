@@ -10,6 +10,7 @@ const fetchLocation = require("./routes/fetchLocation");
 const getPhoto = require("./routes/getPhoto.route");
 const forgetPassword = require("./routes/forgetPassword.route");
 const imageDataUri = require("image-data-uri");
+const UserInfo = require("./routes/UserInfo.route");
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
@@ -62,7 +63,7 @@ app.use("/delete", DeleteRoute(db));
 // Login Signup
 app.use("/", LoginSignUp(db));
 app.use("/map", fetchLocation(db));
-app.use("/forget/password", forgetPassword(db1));
+app.use("/forget/password", forgetPassword(db1, db));
 // fetch all private messages
 app.get("/allPrivateMessages", async (req, res) => {
   //getting user and friend from query
@@ -123,7 +124,7 @@ app.get("/chatList", async (req, res) => {
   // console.log(chats);
   res.json(finalChatList);
 });
-
+app.get("/user/info", (req, res) => UserInfo({ db, db1, res, req }));
 app.get("/get/photo", (req, res) => getPhoto({ db1, req, res }));
 // Fetching all users
 app.get("/allUsers", async (req, res) => {

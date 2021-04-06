@@ -1,7 +1,7 @@
 const { uid } = require("uid");
 const sendEmail = require("../utils/sendEmail.utils");
 const express = require("express");
-const wrapper = (db1) => {
+const wrapper = (db1, db) => {
   class forgetPassword {
     async send(req, res) {
       console.log(req.query);
@@ -26,11 +26,18 @@ const wrapper = (db1) => {
       //   Sending OTP as response to frontend
       return res.json({ otp });
     }
+
     async updatePassword(req, res) {
       const { username, password } = req.body;
+      console.log(username);
       await db.query(
         `update all_users set password ='${password}' where username='${username}'`
       );
+      let [user, field] = await db.query(
+        `Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`
+      );
+
+      res.status(200).json({ user: user[0] });
     }
   }
   const router = express.Router();

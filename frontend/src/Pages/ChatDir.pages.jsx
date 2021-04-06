@@ -129,6 +129,11 @@ const ChatDir = ({ user }) => {
   return (
     <div className="">
       <p>{user.username}</p>
+      <Link
+      to ='/map'
+      >
+        map
+      </Link>
       <button
         onClick={() => {
           setDeleteChat(!deleteChat);
@@ -174,7 +179,6 @@ const ChatDir = ({ user }) => {
                 <img  src={chat.image_url} alt="private"/>
                 :<p>Group</p>
               }
-              
               <Link
                 to={
                   chat.type === "private"

@@ -42,7 +42,7 @@ const SignUp = ({ setUser }) => {
   };
   return (
     <Container className="">
-      <FormHeading>Sign Up</FormHeading>
+      <FormHeading>Create your account</FormHeading>
       <label>
         <InputPrimary
           type="text"

@@ -12,6 +12,7 @@ const Login = ({ setUser }) => {
     username: "",
     password: "",
   });
+  
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       setCredentials({
@@ -95,6 +96,9 @@ const Login = ({ setUser }) => {
           />
         </svg>
       </LinkPrimary>
+      <Link to="/forget/password">
+        Forgot password
+      </Link>
     </Container>
   );
 };

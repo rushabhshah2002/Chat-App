@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-const SendOTP = ({ setIsVerified }) => {
+const SendOTP = ({ setIsVerified, setUsername, username }) => {
   const [isOTPSend, setIsOTPSend] = useState(false);
-  const [username, setUsername] = useState("");
+
   const [userTypedOTP, setUserTypedOTP] = useState("");
   const [otp, setOtp] = useState("");
   const sendOTP = () => {
-    fetch(`http://localhost:5005/forget/password?username=${username}`)
+    fetch(`http://localhost:5005/forget/password?username=${username}`, {})
       .then((response) => response.json())
       .then(({ otp }) => setOtp(otp));
     setIsOTPSend(true);
@@ -14,7 +14,8 @@ const SendOTP = ({ setIsVerified }) => {
   const checkOTP = () => {
     if (otp === userTypedOTP) {
       setIsVerified(true);
-      alert("Correct otp");
+      alert("correct OTP");
+      console.log(12);
     } else {
       alert("Wrong OTP,New OTP Sent");
       sendOTP();

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link ,useParams} from "react-router-dom";
+import { Link } from "react-router-dom";
 const ProfilePage = () => {
-    const {user} = useParams();
   const [userInfo, setUserInfo] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
-    fetch(`http://localhost:5005/user/info?username=${user}`)
+    fetch("http://localhost:5005/user/info")
       .then((response) => response.json())
       .then((user) => setUserInfo(user));
   }, []);

@@ -27,42 +27,20 @@ const wrapper = (db1, db) => {
       return res.json({ otp });
     }
 
-<<<<<<< HEAD
     async updatePassword(req, res) {
       const { username, password } = req.body;
       console.log(username);
-      await db.query(
-        `update all_users set password ='${password}' where username='${username}'`
-      );
+
+      try {
+        await db.query(
+          `update all_users set password ='${password}' where username='${username}'`
+        );
+      } catch (e) {
+        // res.status(400).json(e.sqlMessage)
+      }
       let [user, field] = await db.query(
         `Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`
       );
-||||||| 2b5beff
-
-
-    async updatePassword(req,res){
-      const {username,password} =req.body
-      console.log(username)
-      await db.query(`update all_users set password ='${password}' where username='${username}'` )
-      let [user,field] = await db.query(`Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`)
-      
-=======
-
-
-    async updatePassword(req,res){
-      const {username,password} =req.body
-      console.log(username)
-     
- try{
-
-  await db.query(`update all_users set password ='${password}' where username='${username}'` )
- }     
-    catch(e){
-      // res.status(400).json(e.sqlMessage)
-    }  
-      let [user,field] = await db.query(`Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`)
-      
->>>>>>> 83718f4ac71c2f4a2f79b58d5891c288dc46aa44
 
       res.status(200).json({ user: user[0] });
     }

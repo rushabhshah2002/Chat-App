@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-<<<<<<< HEAD
-const UpdatePassword = ({ isVerified, username }) => {
-||||||| 2b5beff
-const UpdatePassword = ({ isVerified,username }) => {
-=======
-const UpdatePassword = ({ isVerified,username,setUser }) => {
->>>>>>> 83718f4ac71c2f4a2f79b58d5891c288dc46aa44
+const UpdatePassword = ({ isVerified, username, setUser }) => {
   const [passwords, setPasswords] = useState({
     password: "",
     confirm: "",
   });
   const history = useHistory();
   const passwordChange = () => {
-    
     if (isVerified && passwords.password === passwords.confirm) {
       fetch(`http://localhost:5005/forget/password`, {
         method: "POST",
@@ -25,32 +18,17 @@ const UpdatePassword = ({ isVerified,username,setUser }) => {
           username: username,
         }),
       })
-<<<<<<< HEAD
         .then((response) => response.json())
-        .then(() => history.push("/"));
-||||||| 2b5beff
-      .then((response) => response.json()).then(()=>history.push("/"))
-  
-  
-  };
-      
-=======
-      .then((response) => response.json()).then(({user})=>{
-        if(user.err){
-          alert(user.err);
-         return;
-        }
-        history.push("/")
-        setUser(user)
-      })
-  
-  
-  }
-  else {
-    alert("password does not match")
-  }
-      
->>>>>>> 83718f4ac71c2f4a2f79b58d5891c288dc46aa44
+        .then(({ user }) => {
+          if (user.err) {
+            alert(user.err);
+            return;
+          }
+          history.push("/");
+          setUser(user);
+        });
+    } else {
+      alert("password does not match");
     }
   };
 

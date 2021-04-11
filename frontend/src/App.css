@@ -1,1 +1,13 @@
-
+.footer {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 2.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px -5px 10px 0 rgba(0, 0, 0, 0.1);
+  font-size: 1.8rem;
+  color: #343a40;
+  background: #fff;
+  font-family: Josefin;
+}

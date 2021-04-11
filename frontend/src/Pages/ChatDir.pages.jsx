@@ -134,7 +134,7 @@ const ChatDir = ({ user }) => {
       >
         map
       </Link>
-      <Link to ='/:user/profile'>
+      <Link to ={`/${user.username}/profile`}>
         profile
       </Link>
       <button

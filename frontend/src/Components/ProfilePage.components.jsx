@@ -8,6 +8,7 @@ const ProfilePage = () => {
     fetch(`http://localhost:5005/user/info?username=${user}`)
       .then((response) => response.json())
       .then((user) => setUserInfo(user));
+      
   }, []);
   return (
     <div className="">

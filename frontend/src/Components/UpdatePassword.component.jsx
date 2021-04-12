@@ -1,42 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-const UpdatePassword = ({ isVerified,username,setUser }) => {
+const UpdatePassword = ({ isVerified, username, setUser }) => {
   const [passwords, setPasswords] = useState({
     password: "",
     confirm: "",
   });
-  const history=useHistory();
+  const history = useHistory();
   const passwordChange = () => {
-    
     if (isVerified && passwords.password === passwords.confirm) {
-      fetch(`http://localhost:5005/forget/password`,{
+      fetch(`http://localhost:5005/forget/password`, {
         method: "POST",
         headers: {
-          'Content-Type':'application/json'
-
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          password:passwords.password,
-          username:username
-          
-        })
+          password: passwords.password,
+          username: username,
+        }),
       })
-      .then((response) => response.json()).then(({user})=>{
-        if(user.err){
-          alert(user.err);
-         return;
-        }
-        history.push("/")
-        setUser(user)
-      })
-  
-  
-  }
-  else {
-    alert("password does not match")
-  }
-      
+        .then((response) => response.json())
+        .then(({ user,err }) => {
+          if (err) {
+            alert(err.sqlMessage);
+            return;
+          }
+          history.push("/");
+          setUser(user[0]);
+          console.log(user)
+        });
+    } else {
+      alert("password does not match");
     }
+  };
 
   return (
     <div className="">

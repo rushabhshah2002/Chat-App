@@ -5,7 +5,18 @@
   margin: 0;
   padding: 0;
 }
+@font-face {
+  font-family: Helvetica;
+  src: url("./assets/fonts/Helvetica.ttf");
+}
 html {
   font-size: 10px;
-  /* font-family: "Roboto", sans-serif; */
+  font-family: "Roboto", sans-serif;
+}
+svg {
+  height: 100%;
+  width: 100%;
+}
+*:active {
+  outline: none;
 }

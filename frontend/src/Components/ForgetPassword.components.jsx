@@ -1,17 +1,24 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import UpdatePassword from "./UpdatePassword.component";
-import SendOTP from "./SendOTP.component"
-const ForgetPassword = ({setUser}) => {
+import SendOTP from "./SendOTP.component";
+const ForgetPassword = ({ setUser }) => {
   const [isVerified, setIsVerified] = useState(false);
-  const [username,setUsername]=useState("")
+  const [username, setUsername] = useState("");
 
   return (
     <div className="">
       {!isVerified ? (
-        <SendOTP setIsVerified={setIsVerified}  username={username}  setUsername={setUsername} />
+        <SendOTP
+          setIsVerified={setIsVerified}
+          username={username}
+          setUsername={setUsername}
+        />
       ) : (
-       
-        <UpdatePassword isVerified={isVerified} username={username} setUser={setUser}/>
+        <UpdatePassword
+          isVerified={isVerified}
+          username={username}
+          setUser={setUser}
+        />
       )}
     </div>
   );

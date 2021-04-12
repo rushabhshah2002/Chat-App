@@ -3,8 +3,8 @@ const mysql = require("mysql2");
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  database: "chatt_app2",
-  password: "1234567",
+  database: "chat_app",
+  password: "1234567890",
 });
 const db1 = pool.promise();
 
@@ -13,8 +13,8 @@ const db = require("knex")({
   connection: {
     host: "localhost",
     user: "root",
-    password: "1234567",
-    database: "chatt_app2",
+    password: "1234567890",
+    database: "chat_app",
     port: 3306,
   },
 });
@@ -72,7 +72,9 @@ io.on("connection", (socket) => {
       `select * from socketids where name='${username}'`
     );
     console.log(userInfo, 123);
-    await db1.query(`insert into end_time(username,start_time) values('${username}',current_timestamp)`)
+    // await db1.query(
+    //   `insert into end_time(username,start_time) values('${username}',current_timestamp)`
+    // );
     // const userInfo = await db("socketids").where("name", username);
     if (userInfo.length === 0) {
       await db1.query(
@@ -107,17 +109,22 @@ io.on("connection", (socket) => {
   socket.on("on-groupchat", (data) => onGroupChat({ db, io, db1, data }));
   socket.on("user-info", (data) => userInfo({ db, io, db1, data }));
   //socket.on("create-group",new Gr(db,io).create)
-  socket.on("disconnect", async function  () {
-    await db1.query(`update end_time set end_time =current_timestamp  where username ='${users[socket.id].username}'`)
+  socket.on("disconnect", async function () {
+    // await db1.query(
+    //   `update end_time set end_time =current_timestamp  where username ='${
+    //     users[socket.id].username
+    //   }'`
+    // );
     if (users[socket.id]) {
       console.log(`${users[socket.id].username} disconnected`);
     }
-    
+
     // remove saved socket from users object
     delete users[socket.id];
-    await db1.query(`delete from end_time where username ='${users[socket.id].username}'`)
+    // await db1.query(
+    //   `delete from end_time where username ='${users[socket.id].username}'`
+    // );
   });
-  
 });
 
 const port = process.env.PORT || 3003;

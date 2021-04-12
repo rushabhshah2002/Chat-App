@@ -6,15 +6,20 @@ import {
   LinkPrimary,
   InputPrimary,
   FormHeading,
-} from "./Form.styles";
+} from "../Styles/Form.styles";
 const Login = ({ setUser }) => {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
+    location: {
+      lat: 0,
+      long: 0,
+    },
   });
-  
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position);
       setCredentials({
         ...credentials,
         location: {
@@ -22,13 +27,19 @@ const Login = ({ setUser }) => {
           long: position.coords.longitude,
         },
       });
+      console.log(credentials);
     });
   }, []);
   const history = useHistory();
   const onLogin = () => {
     // Checking if user is typed username and password before clicking btn
     console.log(credentials);
-    if (!credentials.password || !credentials.username) {
+    if (
+      !credentials.password ||
+      (!credentials.username &&
+        !credentials.location.lat !== 0 &&
+        !credentials.location.long !== 0)
+    ) {
       return;
     }
     fetch("http://localhost:5005/login", {
@@ -42,7 +53,7 @@ const Login = ({ setUser }) => {
       .then(({ user }) => {
         console.log(user);
         // setting the main user
-        setUser(user);
+        setUser(user[0]);
         //   pushing route to "/"
         history.push("/");
       });
@@ -74,8 +85,7 @@ const Login = ({ setUser }) => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 22 22"
-          width="20px"
-          height="20px"
+          
         >
           <defs>
             <clipPath>
@@ -96,9 +106,7 @@ const Login = ({ setUser }) => {
           />
         </svg>
       </LinkPrimary>
-      <Link to="/forget/password">
-        Forgot password
-      </Link>
+      <LinkPrimary to="/forget/password">Forgot password</LinkPrimary>
     </Container>
   );
 };

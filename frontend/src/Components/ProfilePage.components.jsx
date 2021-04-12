@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link ,useParams} from "react-router-dom";
-const ProfilePage = () => {
-    const {user} = useParams();
+import { Link } from "react-router-dom";
+const ProfilePage = ({user}) => {
   const [userInfo, setUserInfo] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {

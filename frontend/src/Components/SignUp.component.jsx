@@ -6,7 +6,7 @@ import {
   FormHeading,
   BTNPrimary,
   LinkPrimary,
-} from "./Form.styles";
+} from "../Styles/Form.styles";
 const SignUp = ({ setUser }) => {
   const history = useHistory();
   const [userInfo, setUserInfo] = useState({});
@@ -35,19 +35,19 @@ const SignUp = ({ setUser }) => {
       },
     })
       .then((response) => response.json())
-      .then(( user ) => {
-        if(user.err){
+      .then((user) => {
+        if (user.err) {
           alert(user.err);
-         return;
+          return;
         }
-        console.log(user)
+        console.log(user);
         history.push("/info");
         setUser(user.user);
-      })
+      });
   };
   return (
     <Container className="">
-      <FormHeading>Sign Up</FormHeading>
+      <FormHeading>Create your account</FormHeading>
       <label>
         <InputPrimary
           type="text"

@@ -14,8 +14,8 @@ const UserInfo = require("./routes/UserInfo.route");
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  database: "chatt_app2",
-  password: "1234567",
+  database: "chat_app",
+  password: "1234567890",
 });
 
 const db = pool.promise();
@@ -25,8 +25,8 @@ const db1 = knex({
   connection: {
     host: "localhost",
     user: "root",
-    password: "1234567",
-    database: "chatt_app2",
+    password: "1234567890",
+    database: "chat_app",
     port: 3306,
   },
 });
@@ -110,6 +110,7 @@ app.get("/chatList", async (req, res) => {
         ...user_info[0],
         receiverName:user_info[0].username,
         image_url: datauri,
+        receiverName: user_info[0].username,
         type: "private",
       });
     } else {

@@ -11,14 +11,10 @@ import ForgetPassword from "./Components/ForgetPassword.components";
 import ProfilePage from "./Components/ProfilePage.components";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-import { HotKeys } from "react-hotkeys";
 import "./App.css";
 function App() {
   const [user, setUser] = useState({});
   const history = useHistory();
-  const keyMap = {
-    SELECT_SPC: "alt+s",
-  };
   useEffect(() => {
     console.log(history);
     if (user) {
@@ -36,51 +32,49 @@ function App() {
   }, [user]);
 
   return (
-    <HotKeys keyMap={keyMap}>
-      <div className="App">
-        <ReactNotification />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => <ChatDir user={user} setUser={setUser} />}
-          />
-          <Route path="/signup" render={() => <Signup setUser={setUser} />} />
-          <Route path="/login" render={() => <Login setUser={setUser} />} />
-          <Route
-            path="/forget/password"
-            render={() => <ForgetPassword setUser={setUser} />}
-          />
-          <Route path="/:user/profile" render={() => <ProfilePage />} />
-          <Route
-            path="/info"
-            render={() => <UserInfoForm user={user.username} />}
-          />
+    <div className="App">
+      <ReactNotification />
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={() => <ChatDir user={user} setUser={setUser} />}
+        />
+        <Route path="/signup" render={() => <Signup setUser={setUser} />} />
+        <Route path="/login" render={() => <Login setUser={setUser} />} />
+        <Route
+          path="/forget/password"
+          render={() => <ForgetPassword setUser={setUser} />}
+        />
+        <Route
+          path="/:user/profile"
+          render={() => <ProfilePage user={user.username} />}
+        />
+        <Route
+          path="/info"
+          render={() => <UserInfoForm user={user.username} />}
+        />
 
-          <Route
-            path="/:groupid/edit"
-            render={() => <GroupSetting user={user.username} />}
-          />
-          <Route
-            path="/:type/:id/:groupName"
-            render={() => <Chat user={user.username} />}
-          />
-          <Route
-            path="/:type/:id"
-            render={() => <Chat user={user.username} />}
-          />
+        <Route
+          path="/:groupid/edit"
+          render={() => <GroupSetting user={user.username} />}
+        />
+        <Route
+          path="/:type/:id/:groupName"
+          render={() => <Chat user={user.username} />}
+        />
+        <Route path="/:type/:id" render={() => <Chat user={user.username} />} />
 
-          <Route
-            path="/:type/@:id"
-            render={() => <Chat user={user.username} />}
-          />
-          <Route path="/map" render={() => <Map />} />
-        </Switch>
-        <div className="footer">
-          <p>©2021 One Message</p>
-        </div>
+        <Route
+          path="/:type/@:id"
+          render={() => <Chat user={user.username} />}
+        />
+        <Route path="/map" render={() => <Map />} />
+      </Switch>
+      <div className="footer">
+        <p>©2021 One Message</p>
       </div>
-    </HotKeys>
+    </div>
   );
 }
 

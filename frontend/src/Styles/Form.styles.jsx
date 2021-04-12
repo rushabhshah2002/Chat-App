@@ -70,5 +70,65 @@ export const LinkPrimary = styled(Link)`
     background: ${colors["Cultured"]};
   }
 `;
+export const PPImage = styled.img`
+  height: 15rem;
+  width: 15rem;
+  border-radius: 50%;
+  border: 2px solid ${colors["Gunmetal"]};
+`;
+export const PPInput = styled.input`
+  height: 100%;
+  width: 90%;
+  padding: 1rem;
+  border: none;
+  font-size: 2rem;
+ background: ${({ isInputHovered }) =>
+   isInputHovered ? colors["Cultured"] : "white"}};
+  border-radius: 2px;
+  transition: background 0.3s ease-out;
+  &:active,
+  &:focus {
+    outline: none;
+    
+  }
+`;
+export const PPInputContainer = styled.div`
+  margin: 1rem;
+  height: 5rem;
+  width: 30rem;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s ease-out;
+  border-bottom: ${({ isInputHovered }) =>
+    isInputHovered ? `1px solid ${colors["Gunmetal"]}` : "unset"};
+  background: ${({ isInputHovered }) =>
+    isInputHovered ? colors["Cultured"] : "white"}};
+`;
+export const PPBTN = styled.button`
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  height: 2.5rem;
+  width: 2.5rem;
+  margin-right: 0.5rem;
+`;
+export const PPTextBox = styled.textarea`
+  height: 10rem;
+  width: 30rem;
 
+  border: none;
+  font-size: 2rem;
+  resize: none;
+
+  &:focus,
+  &:active {
+    outline: none;
+    border-bottom: 1px solid ${colors["Gunmetal"]};
+  }
+  &:hover {
+    border-bottom: 1px solid ${colors["Gunmetal"]};
+
+    border-radius: 0.5rem;
+  }
+`;
 export default styled;

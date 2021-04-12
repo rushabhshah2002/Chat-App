@@ -31,6 +31,7 @@ let socket;
 const PrivateChat = ({ user }) => {
   const { id, type, groupName } = useParams();
   const msgsEl = useRef(null);
+  const div = useRef(null);
   const [isInputFocus, setIsInputFocus] = useState(false);
   const [msgs, setMsgs] = useState([
     {
@@ -241,7 +242,13 @@ const PrivateChat = ({ user }) => {
         setCurrentMsg("");
       }
     }
+    // div.current.scrollIntoView();
+    // const scrollHeight = msgsEl.scrollHeight;
+    // const height = msgsEl.clientHeight;
+    // const maxScrollTop = scrollHeight - height;
+    // msgsEl.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
   };
+
   const setMsg = ({ target }) => {
     if (currentMsg === " ") {
       setCurrentMsg("");
@@ -528,6 +535,7 @@ const PrivateChat = ({ user }) => {
                 );
             })
           : null}
+        <div style={{ float: "left", clear: "both" }} ref={div}></div>
       </MsgContainer>
       {/* <form action=""> */}
       <SCContainer className="" inputFocus={isInputFocus ? true : false}>

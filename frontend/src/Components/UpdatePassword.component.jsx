@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { InputPrimary, BTNPrimary } from "../Styles/Form.styles";
 const UpdatePassword = ({ isVerified, username, setUser }) => {
   const [passwords, setPasswords] = useState({
     password: "",
@@ -33,29 +34,29 @@ const UpdatePassword = ({ isVerified, username, setUser }) => {
   };
 
   return (
-    <div className="">
-      <input
+    <>
+      <InputPrimary
         type="password"
         name="password"
         id=""
-        placeholder="new password"
+        placeholder="New Password"
         value={passwords.password}
         onChange={({ target }) =>
           setPasswords({ ...passwords, password: target.value })
         }
       />
-      <input
+      <InputPrimary
         type="password"
         name="confirm-password"
         id=""
-        placeholder="confirm password"
+        placeholder="Confirm Password"
         value={passwords.confirm}
         onChange={({ target }) =>
           setPasswords({ ...passwords, confirm: target.value })
         }
       />
-      <button onClick={passwordChange}>Update Password</button>
-    </div>
+      <BTNPrimary onClick={passwordChange}>Update</BTNPrimary>
+    </>
   );
 };
 

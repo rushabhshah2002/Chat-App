@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { InputPrimary, BTNPrimary, LinkPrimary } from "../Styles/Form.styles";
 const SendOTP = ({ setIsVerified, setUsername, username }) => {
   const [isOTPSend, setIsOTPSend] = useState(false);
 
@@ -22,30 +22,30 @@ const SendOTP = ({ setIsVerified, setUsername, username }) => {
     }
   };
   return (
-    <div className="">
+    <>
       {!isOTPSend ? (
         <>
-          <input
+          <InputPrimary
             type="text"
             placeholder="username"
             value={username}
             onChange={({ target }) => setUsername(target.value)}
           />
-          <button onClick={sendOTP}>Send OTP</button>
+          <BTNPrimary onClick={sendOTP}>Send OTP</BTNPrimary>
         </>
       ) : (
         <>
-          <input
+          <InputPrimary
             type="text"
             placeholder="OTP"
             value={userTypedOTP}
             onChange={({ target }) => setUserTypedOTP(target.value)}
           />
-          <button onClick={checkOTP}>Verify</button>
-          <button onClick={sendOTP}>Resend</button>
+          <BTNPrimary onClick={checkOTP}>Verify</BTNPrimary>
+          <LinkPrimary onClick={sendOTP}>Resend</LinkPrimary>
         </>
       )}
-    </div>
+    </>
   );
 };
 

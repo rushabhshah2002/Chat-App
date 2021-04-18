@@ -14,8 +14,8 @@ const UserInfo = require("./routes/UserInfo.route");
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  database: "chat_app",
-  password: "1234567890",
+  database: "chatt_app2",
+  password: "1234567",
 });
 
 const db = pool.promise();
@@ -25,8 +25,8 @@ const db1 = knex({
   connection: {
     host: "localhost",
     user: "root",
-    password: "1234567890",
-    database: "chat_app",
+    password: "1234567",
+    database: "chatt_app2",
     port: 3306,
   },
 });
@@ -92,9 +92,10 @@ app.get("/allPrivateMessages", async (req, res) => {
 app.get("/chatList", async (req, res) => {
   const { username } = req.query;
   // console.log(username);
-  let [chats, field] = await db.query(
-    `select * from user_chat where username = '${username}' order by last_updated ;`
+  let [[chats]] = await db.query(
+    `call Fetch_Chat_List('${username}') ;`
   );
+  console.log(chats)
   // console.log(chats,"123")
   let finalChatList = [];
   for (let chat of chats) {
@@ -112,6 +113,7 @@ app.get("/chatList", async (req, res) => {
         image_url: datauri,
         receiverName: user_info[0].username,
         type: "private",
+        status:chat.status
       });
     } else {
       finalChatList.push(chat);
@@ -158,3 +160,4 @@ app.get("/allUsers", async (req, res) => {
 
 const port = process.env.PORT || 5005;
 app.listen(port, () => console.log(`Server running on port ${port} 🔥`));
+

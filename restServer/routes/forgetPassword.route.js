@@ -31,18 +31,21 @@ const wrapper = (db1, db) => {
       const { username, password } = req.body;
       console.log(username);
 
-      try {
-        await db.query(
-          `update all_users set password ='${password}' where username='${username}'`
-        );
-      } catch (e) {
-        // res.status(400).json(e.sqlMessage)
-      }
+      
+      try{
       let [user, field] = await db.query(
-        `Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`
+        `call update_password('${username}','${password}')`
       );
-
       res.status(200).json({ user: user[0] });
+    }
+      catch(err){
+        res.status(200).json({ err});
+        console.log(err)
+      }
+      
+
+
+      
     }
   }
   const router = express.Router();

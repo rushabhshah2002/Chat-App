@@ -1,9 +1,21 @@
-const changeGroupName = async ({data,io,db,db1}) => {
+const changeGroupName = async ({data,io,db,db1,socket}) => {
     const {groupid,group_name ,username} = data;
     console.log(data)
-    await db1.query(`update group_info set group_name='${group_name}' where groupid='${groupid}'`)
-    await db1.query(`update all_groups set group_name='${group_name}' where groupid='${groupid}'`)
-    await db1.query(`update user_chat set receiverName='${group_name}' where groupid='${groupid}'`)
+    console.log(socket.id,"kdsjal")
+
+    try {
+        await db1.query(`call Change_group_name('${username}','${groupid}','${group_name}')`)
+      }
+catch(e){
+    console.log(e)
+    io.to(socket.id).emit("group-noti",{
+        type:"error",
+        content:{
+            message:e.sqlMessage
+        }
+    })
+}
+    
     
     // await db("group_info").where({groupid}).update({group_name});
     // await db("all_groups").where({groupid}).update({group_name});

@@ -40,7 +40,7 @@ const createGroup = async ({ db,db1, io, data, socket }) => {
     // });
   }
   await db("group_info").insert(groupinfo);
-  await db1.query(`insert into  all_groups(groupid,group_name,member,admins) values('${groupinfo[0].groupid}','${group_name}','${members.join()}','${username}');`)
+  await db1.query(`insert into  all_groups(groupid,group_name,member,admins,created) values('${groupinfo[0].groupid}','${group_name}','${members.join()}','${username}',current_timestamp);`)
 
   // await db("all_groups").insert({
   //   groupid: groupinfo[0].groupid,

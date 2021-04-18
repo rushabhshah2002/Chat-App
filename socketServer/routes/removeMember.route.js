@@ -6,7 +6,7 @@ const removeMember = async ({ data, io, db,db1 }) => {
   // const userinfo = await db("group_info").where({ groupid, member: username });
   if (userinfo[0].is_admin) {
     await db1.query(`update group_info set left_date=current_timestamp where groupid='${groupid}' and member ='${memberName}'`)
-    
+    await db1.query(`delete from user_chat where groupid='${groupid}' and  username='${memberName}' `)
       
     // await db("group_info")
     //   .where({ groupid, member: memberName })

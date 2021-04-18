@@ -3,8 +3,8 @@ const mysql = require("mysql2");
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  database: "chat_app",
-  password: "1234567890",
+  database: "chatt_app2",
+  password: "1234567",
 });
 const db1 = pool.promise();
 
@@ -13,8 +13,8 @@ const db = require("knex")({
   connection: {
     host: "localhost",
     user: "root",
-    password: "1234567890",
-    database: "chat_app",
+    password: "1234567",
+    database: "chatt_app2",
     port: 3306,
   },
 });
@@ -60,7 +60,8 @@ io.on("connection", (socket) => {
   console.log("hello");
   socket.on("user_connected", async (data) => {
     const { username, currentPosition, id } = data;
-    console.log(data);
+    client = data.username;
+    console.log(data,"kjdksjalkjsl");
 
     users[socket.id] = {
       id: socket.id,
@@ -71,19 +72,26 @@ io.on("connection", (socket) => {
     let [userInfo, field] = await db1.query(
       `select * from socketids where name='${username}'`
     );
-    console.log(userInfo, 123);
+    console.log(socket.id)
     // await db1.query(
     //   `insert into end_time(username,start_time) values('${username}',current_timestamp)`
-    // );
-    // const userInfo = await db("socketids").where("name", username);
+    // );rname);
+    // const userInfo = await db("socketids").where("name", use
     if (userInfo.length === 0) {
       await db1.query(
         `insert into socketids values('${username}','${socket.id}');`
       );
+      await db1.query(
+        `update end_time set start_time=current_timestamp where username='${username}'`
+      );
+
       // await db("socketids").insert([{ name: username, id: socket.id }]);
     } else {
       await db1.query(
         `update socketids set id = '${socket.id}' where name = '${username}'`
+      );
+      await db1.query(
+        `update end_time set start_time=current_timestamp where username='${username}'`
       );
       // await db("socketids").where({ name: username }).update("id", socket.id);
     }
@@ -96,7 +104,7 @@ io.on("connection", (socket) => {
     createGroup({ data, db, db1, io, socket })
   );
   socket.on("change-groupname", (data) =>
-    changeGroupName({ data, db1, db, io })
+    changeGroupName({ data, db1, db, io ,socket})
   );
   socket.on("remove-member", (data) =>
     removeMember({ data, db, db1, io, socket })
@@ -108,6 +116,30 @@ io.on("connection", (socket) => {
   socket.on("on-privatechat", (data) => onPrivateChat({ db, io, db1, data }));
   socket.on("on-groupchat", (data) => onGroupChat({ db, io, db1, data }));
   socket.on("user-info", (data) => userInfo({ db, io, db1, data }));
+  socket.on("log-out", async (data) => {
+    console.log("sjasjdlj ")
+    console.log(users,socket.id)
+    console.log(client,123)
+    await db1.query(
+      `update end_time set end_time=current_timestamp where username='${client}'`
+    );
+    if (users[socket.id]) {
+      console.log(`${users[socket.id].username} disconnected`);
+      
+      await db1.query(
+        `update end_time set end_time=current_timestamp where username='${users[socket.id].username}'`
+      );
+      delete users[socket.id];
+    }
+    console.log(users[socket.id]);
+    
+    // remove saved socket from users object
+    
+    // await db1.query(
+    //   `delete from end_time where username ='${users[socket.id].username}'`
+    // );
+  
+  })
   //socket.on("create-group",new Gr(db,io).create)
   socket.on("disconnect", async function () {
     // await db1.query(
@@ -115,12 +147,20 @@ io.on("connection", (socket) => {
     //     users[socket.id].username
     //   }'`
     // );
+    console.log(client,123)
+    console.log(users,socket.id)
     if (users[socket.id]) {
       console.log(`${users[socket.id].username} disconnected`);
+      
+      await db1.query(
+        `update end_time set end_time=current_timestamp where username='${users[socket.id].username}'`
+      );
+      delete users[socket.id];
     }
-
+    console.log(users[socket.id]);
+    
     // remove saved socket from users object
-    delete users[socket.id];
+    
     // await db1.query(
     //   `delete from end_time where username ='${users[socket.id].username}'`
     // );

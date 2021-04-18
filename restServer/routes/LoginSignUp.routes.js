@@ -10,21 +10,18 @@ const wrapper = (db) => {
       const { username, password, location } = req.body;
       console.log(req.body);
       // Fetching a user whoes username and password matches given username and password
-      let [user, field] = await db.query(
-        `Select username,email,joined_on from  all_users where username='${username}' and password ='${password}'`
-      );
-
-      let [user1, field123] = await db.query(
-        `update user_location set longitude='${location.long}',latitude='${location.lat}' , cur_time=current_timestamp where username='${username}';`
-      );
-      if (user.length === 0) {
-        res.status(401).json({ error: "Wrong credentials" });
-      } else {
-        // await db.query(
-        //   // `update all_users set joined_on =current_timestamp where username ='${username}'`
-        // );
+      try{
+        let [user, field] = await db.query(
+          `call Login('${username}','${password}','${location.lat}','${location.long}')`
+        );
+        console.log(user,123)
         res.status(200).json({ user: user[0] });
+  
+      }catch(err){
+        console.log(err)
+        res.status(200).json({ err: err.sqlMessage });
       }
+      
     }
     async signUp(req, res) {
       // getting username,password, email from body
@@ -34,32 +31,19 @@ const wrapper = (db) => {
         // Creating New User
         let a = uid();
         console.log("132");
-        
+        console.log(a,username,password,email,"wegwrtenqw")
+      
         try {
           let [a1, field1] = await db.query(
-            `INSERT INTO all_users VALUES('${a}','${username}','${email}','${password}',CURRENT_TIMESTAMP)`
+            `call SignUP('${a}','${username}','${email}','${password}','${location.lat}','${location.long}')`
           );
+          console.log(a1)
         } catch (err) {
           res.status(400).json({err:err.sqlMessage})
         }
-        try{
-          let [b, field234] = await db.query(
-            `insert into user_location(username,userid,latitude,longitude,cur_time) values('${username}','${a}','${location.lat}','${location.long}',current_timestamp) `
-          );
-        }
-        catch (err1){
-          console.log(err1)
-        }
-        
 
-        // console.log(a,123)
-        // await db("all_users").insert({
-        //   userid: uid(),
-        //   username: username,
-        //   password: password,
-        //   email: email,
-        // });
-        // Fetching that user and returnig it
+        
+        
         let [user, field] = await db.query(
           `select * from all_users where username='${username}' and password ='${password}' and email='${email}' `
         );

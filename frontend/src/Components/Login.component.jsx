@@ -50,7 +50,11 @@ const Login = ({ setUser }) => {
       },
     })
       .then((response) => response.json())
-      .then(({ user }) => {
+      .then(({ user,err }) => {
+        if(err){
+          alert(err)
+          return;
+        }
         console.log(user);
         // setting the main user
         setUser(user[0]);
@@ -85,7 +89,8 @@ const Login = ({ setUser }) => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 22 22"
-          
+          height={"3rem"}
+          width={"3rem"}
         >
           <defs>
             <clipPath>

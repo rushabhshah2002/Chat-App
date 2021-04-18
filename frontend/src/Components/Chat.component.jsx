@@ -31,6 +31,7 @@ let socket;
 const PrivateChat = ({ user }) => {
   const { id, type, groupName } = useParams();
   const msgsEl = useRef(null);
+  const div = useRef(null);
   const [isInputFocus, setIsInputFocus] = useState(false);
   const [msgs, setMsgs] = useState([
     {
@@ -126,12 +127,30 @@ const PrivateChat = ({ user }) => {
     //return socket.disconnect()
   }, []);
   useEffect(() => {
+    console.log(123,type)
     if (type === "dm") {
+      console.log("bye")
+      console.log(user)
       for (let i of [user, id])
         fetch(`http://localhost:5005/get/photo?username=${i}`)
           .then((response) => response.json())
           .then(({ user }) => {
+            console.log(user)
             setMembersInfo({ [user.username]: user });
+          });
+    }
+    else {
+      console.log("hello")
+      for (let i of [user, id])
+        fetch(`http://localhost:5005/group/info/members?groupid=${i}`)
+          .then((response) => response.json())
+          .then(( members ) => {
+            // console.log(members)
+            for(let member of members){
+              console.log(member)
+              setMembersInfo((memberInfo) => ({...memberInfo,[member.username]:member}))
+            }
+            console.log(membersInfo)
           });
     }
   }, []);
@@ -241,7 +260,13 @@ const PrivateChat = ({ user }) => {
         setCurrentMsg("");
       }
     }
+    // div.current.scrollIntoView();
+    // const scrollHeight = msgsEl.scrollHeight;
+    // const height = msgsEl.clientHeight;
+    // const maxScrollTop = scrollHeight - height;
+    // msgsEl.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
   };
+
   const setMsg = ({ target }) => {
     if (currentMsg === " ") {
       setCurrentMsg("");
@@ -450,14 +475,16 @@ const PrivateChat = ({ user }) => {
                     key={msg.Id}
                     userType={msg.sender === user ? "user" : "friend"}
                   >
+                  <abbr title={msg.sender}>
                     <MSGImage
                       src={
                         membersInfo[msg.sender]
                           ? membersInfo[msg.sender].image_url
                           : ""
                       }
-                      alt=""
+                      alt={msg.sender}
                     />
+                    </abbr>
                     <MsgText
                       key={uid()}
                       onClick={() => onMsgClick(msg.text)}
@@ -528,6 +555,7 @@ const PrivateChat = ({ user }) => {
                 );
             })
           : null}
+        <div style={{ float: "left", clear: "both" }} ref={div}></div>
       </MsgContainer>
       {/* <form action=""> */}
       <SCContainer className="" inputFocus={isInputFocus ? true : false}>

@@ -1,7 +1,8 @@
 const onPrivateChat = async ({ data, io, db ,db1}) => {
   const { user, friend } = data;
   console.log("daas");
-  let [allChat,field] = await db1.query(`select * from private_messages where sender ='${friend}' and receiver ='${user}'`)
+
+  let [[allChat]] = await db1.query(`call Private_Chat('${friend}','${user}')`)
   // const allChat = await db("private_messages").where({
   //   sender: friend,
   //   receiver: user,

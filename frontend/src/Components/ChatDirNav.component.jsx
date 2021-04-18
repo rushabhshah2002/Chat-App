@@ -281,7 +281,7 @@ const ChatDirNav = ({
 
             <circle cx={256} cy={128} r={128} />
           </UPSVG>
-          My Profile
+          {user.username}
         </UPBtn>
         <UPBtn
           onClick={() => history.push("/forget/password")}
@@ -320,7 +320,7 @@ const ChatDirNav = ({
               </g>
             </g>
           </UPSVG>
-          Change Password
+          Forgot Password
         </UPBtn>
       </UPContainer>
     </NavBar>

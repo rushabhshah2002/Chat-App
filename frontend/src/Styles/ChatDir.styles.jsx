@@ -24,6 +24,9 @@ export const NavLinkIcons = styled.button`
     isProfile && isProfileHovered ? colors.Cultured : "none"};
   margin: 0 1rem;
   padding: ${({ isProfile }) => (isProfile ? "0 1rem" : "0")};
+  &:focus{
+    outline:none;
+  }
 `;
 export const NavLinkSVG = styled.svg`
   fill: ${colors["Davys Grey"]};

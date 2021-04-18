@@ -10,8 +10,8 @@ const userInfo = async ({ data, db1, db, io }) => {
   imageurl = imgURlArr.join("");
   console.log(imageurl, "123");
   await db1.query(
-    `insert into user_info(dob,image_url,description,username,last_updated) values ('${dob}','${imageurl}','${bio}','${username}',current_timestamp)`
-  );
+    `call Store_user_info ('${username}','${dob}','${bio}','${imageurl}')`
+ );
   let [socketidsName, field] = await db1.query(`select * from socketids`);
   for (let socketid of socketidsName) {
     io.to(socketid.id).emit("user-noti", {

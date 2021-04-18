@@ -25,6 +25,7 @@ const leaveGroup = async ({ data, db, db1,io }) => {
     members.push(user);
   }
   await db1.query(`update group_info set left_date=current_timestamp where groupid='${groupid}' and member='${user}'`)
+  await db1.query(`delete from user_chat where groupid='${groupid}' and  username='${user}' `)
   // await db("group_info").where({ groupid, member: user }).del();
 
   // await db1.query(`delete from user_chat where groupid ='${groupid}' and username = '${user}';`)

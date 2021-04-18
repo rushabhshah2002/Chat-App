@@ -3,24 +3,49 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import styled from "styled-components";
 import L from "leaflet";
-
+import FMarker from "../assets/imgs/offline-marker.svg"
+import OMarker from "../assets/imgs/online-marker.svg"
 //import "./styles.scss";
 export default function Map() {
-  const [users, setUsers] = useState([]);
+  const [usersOffline, setUsersOffline] = useState([]);
+  const [usersOnline,setUsersOnline]=useState([]);
   useEffect(() => {
     fetch("http://localhost:5005/map/users")
       .then((res) => res.json())
-      .then((users) => setUsers(users));
+      .then((users) => {
+        console.log(users)
+        setUsersOnline(users.filter(user => user.status === 1));
+        console.log(usersOnline);
+      
+        setUsersOffline(users.filter(user => user.status === 0));
+        console.log(usersOffline)
+      });
   }, []);
-  console.log(users);
   const createClusterCustomIcon = function (cluster) {
     return L.divIcon({
-      html: `<span class="Hello">${cluster.getChildCount()}</span>`,
+      html: `<span class="MapCluster">${cluster.getChildCount()}</span>`,
       className: "marker-cluster-custom",
       iconSize: L.point(40, 40, true),
     });
   };
-
+  const IconOffline = L.icon({
+    iconUrl: FMarker,
+    iconSize: [64,64],
+    iconAnchor: [32, 64],
+    popupAnchor: [0,-60],
+    shadowUrl: null,
+    shadowSize: null,
+    shadowAnchor: null
+});
+const IconOnline = L.icon({
+  iconUrl: OMarker,
+  iconSize: [64,64],
+  iconAnchor: [32, 64],
+  popupAnchor: [0,-60],
+  shadowUrl: null,
+  shadowSize: null,
+  shadowAnchor: null
+});
   return (
     //<h>Hello</h
     <MapContainer
@@ -37,8 +62,8 @@ export default function Map() {
       />
 
       <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon}>
-        {users.map((user) => (
-          <Marker position={[user.latitude, user.longitude]}>
+        {usersOffline.map((user) => (
+          <Marker isUserOnline={user.status} position={[user.latitude, user.longitude]} icon={IconOffline}>
             <Popup>
               <div>
                 <img src={user.image_url} alt="User profile" />
@@ -48,6 +73,20 @@ export default function Map() {
               </div>
             </Popup>
           </Marker>
+          
+        ))}
+        {usersOnline.map((user) => (
+          <Marker isUserOnline={user.status} position={[user.latitude, user.longitude]} icon={IconOnline}>
+            <Popup>
+              <div>
+                <img src={user.image_url} alt="User profile" />
+                <p>{`${user.username}`}</p>
+                <p>{`${user.dob}`}</p>
+                <p>{`${user.description}`}</p>
+              </div>
+            </Popup>
+          </Marker>
+          
         ))}
       </MarkerClusterGroup>
     </MapContainer>

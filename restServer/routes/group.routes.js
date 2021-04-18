@@ -1,5 +1,6 @@
 const express = require("express");
 const { uid } = require("uid/secure");
+const imageDataUri = require("image-data-uri")
 const wrapper = (db) => {
   const router = express.Router();
 
@@ -10,6 +11,26 @@ const wrapper = (db) => {
       
       // const data = await db("group_info").where("member", username);
       res.json(data);
+    }
+    async membersInfo(req, res ){
+      const {groupid}=req.query;
+      console.log(groupid)
+      let[[members]]=await db.query(`call Get_photo_group('${groupid}')`)
+      const membersInfo = []
+      console.log("hello",members);
+      for(let member of members){
+        console.log(member)
+        const datauri = await imageDataUri.encodeFromFile(
+          `../socketServer${member.image_url}`
+        );
+        
+        membersInfo.push({
+          ...member,
+          image_url:datauri
+        })
+      }
+      console.log("membersInfo")
+      res.json(membersInfo).status(200)
     }
     async groupInfo(req, res) {
       const { groupid, user } = req.body;
@@ -26,7 +47,7 @@ const wrapper = (db) => {
       // const data = await db("group_info").where("groupid", groupid);
 
       let group_info = {
-        groupid: groupid,
+        groupid: groupid, 
         group_name: data[0].group_name,
         members: [],
         admins: [],
@@ -82,6 +103,7 @@ const wrapper = (db) => {
   router.get("/all", new Group().find);
   router.post("/info", new Group().groupInfo);
   router.post("/allGroupMessages", new Group().allMessages);
+  router.get("/info/members",new Group().membersInfo);
   return router;
 };
 

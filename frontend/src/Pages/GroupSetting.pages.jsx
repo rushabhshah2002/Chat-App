@@ -95,6 +95,10 @@ const GroupSetting = ({ user }) => {
           setAddingMember(false);
           setCurrentSelect("");
           break;
+        case "error":
+          console.log(data)
+          alert(data.content.message);
+          break;
         default:
           break;
       }
@@ -163,15 +167,10 @@ const GroupSetting = ({ user }) => {
   return (
     <div className="">
       <h1>{groupInfo.group_name}</h1>
-
-      {groupInfo.admins.length > 0 ? (
-        groupInfo.admins.indexOf(user) !== -1 ? (
-          <button onClick={() => setChangeGroupName(!changeGroupName)}>
+      <button onClick={() => setChangeGroupName(!changeGroupName)}>
             ✎
           </button>
-        ) : null
-      ) : null}
-
+     
       {changeGroupName ? (
         <div className="">
           <input
